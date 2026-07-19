@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import Background from "@/components/background";
 
 
 const josefinSans = Josefin_Sans({
@@ -32,7 +33,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <Background>
+            {children}
+          </Background>
         </ThemeProvider>
       </body>
     </html>
