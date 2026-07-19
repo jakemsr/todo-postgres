@@ -46,6 +46,8 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   --background-image-hero: var(--theme-bg-image);
+  --color-navy-950: hsl(235, 21%, 11%);
+  --color-navy-900: hsl(235, 24%, 19%);
 }
 
 :root {
