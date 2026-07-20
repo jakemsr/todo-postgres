@@ -45,7 +45,7 @@ export default function Page() {
   };
 
   return (
-    <div className="w-136 mt-8">
+    <div className="flex flex-col w-136 mt-8">
       <div className="flex justify-start items-center text-xl gap-4 rounded-sm bg-white dark:bg-navy-900 p-4 shadow-xl">
         <div className="rounded-full w-6 h-6 mx-2 border border-gray-300 dark:border-gray-600"></div>
         <input
@@ -64,7 +64,7 @@ export default function Page() {
 
       </div>
 
-      <div className="flex w-full items-center justify-center mt-4 gap-2">
+      <div className="flex w-full items-center justify-center mt-auto py-4 gap-2">
         <p>
           Logged in as <span>{claims?.email}</span>
         </p>

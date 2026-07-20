@@ -9,7 +9,7 @@ export default function Background({children}: {children: React.ReactNode}) {
           todo
           <ThemeToggle />
         </div>
-        <div className="flex items-center justify-center w-full">
+        <div className="flex grow justify-center w-full">
           {children}
         </div>
       </div>
