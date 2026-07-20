@@ -16,11 +16,9 @@ export default function Home() {
         </ul>
       </div>
       <div className="mt-4 text-center">
-        To get started, please
-        <Link href="/auth/sign-up" className="text-blue-500 underline mx-1">
-          sign up
+        <Link href="/todo" className="text-blue-500 underline mx-1">
+          Get started!
         </Link>
-        to continue.
       </div>
     </div>
   );
