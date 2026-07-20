@@ -13,7 +13,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="w-140 mt-10 text-center text-xl rounded-sm bg-white dark:bg-navy-900 p-6 shadow-xl">
+    <div className="w-140 mt-10 mb-auto text-center text-xl rounded-sm bg-white dark:bg-navy-900 p-6 shadow-xl">
       <h1 className="text-2xl font-bold mb-4">Welcome to the TODO App!</h1>
       <p>This TODO application is designed to help you manage your tasks efficiently.</p>
       <div className="mt-4 text-left">
