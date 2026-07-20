@@ -53,6 +53,7 @@ export default function Page() {
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
           onKeyDown={handleKeyDown}
+          autoFocus
         />
       </div>
 
