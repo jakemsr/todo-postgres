@@ -1,7 +1,17 @@
 import Link from "next/link";
+import { createClient } from '@/lib/supabase/server'
 
 
-export default function Home() {
+export default async function Home() {
+
+  const supabase = await createClient()
+
+  let startPage = "/todo";
+  const { data, error } = await supabase.auth.getClaims()
+  if (error || !data?.claims) {
+    startPage = '/auth/login';
+  }
+
   return (
     <div className="w-140 mt-10 text-center text-xl rounded-sm bg-white dark:bg-navy-900 p-6 shadow-xl">
       <h1 className="text-2xl font-bold mb-4">Welcome to the TODO App!</h1>
@@ -16,7 +26,7 @@ export default function Home() {
         </ul>
       </div>
       <div className="mt-4 text-center">
-        <Link href="/todo" className="text-blue-500 underline mx-1">
+        <Link href={startPage} className="text-blue-500 underline mx-1">
           Get started!
         </Link>
       </div>
