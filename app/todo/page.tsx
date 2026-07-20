@@ -48,8 +48,11 @@ export default function Page() {
     <div className="flex flex-col w-136 mt-8">
       <div className="flex justify-start items-center text-xl gap-4 rounded-sm bg-white dark:bg-navy-900 p-4 shadow-xl">
         <div className="rounded-full w-6 h-6 mx-2 border border-gray-300 dark:border-gray-600"></div>
+        <label htmlFor="new-todo" className="sr-only">New Todo</label>
         <input
-          type="text" className="flex-1 border-none focus:outline-none focus:ring-0 caret-sidebar-primary"
+          id="new-todo"
+          type="text"
+          className="flex-1 border-none focus:outline-none focus:ring-0 caret-sidebar-primary"
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
           onKeyDown={handleKeyDown}
