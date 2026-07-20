@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import { Josefin_Sans } from "next/font/google";
+import localFont from 'next/font/local'
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Background from "@/components/background";
-
-
-const josefinSans = Josefin_Sans({
-  variable: "--font-josefin-sans",
-  subsets: ["latin"],
-}); 
+ 
+const josefinSans = localFont({
+  src: "../public/fonts/JosefinSans-VariableFont_wght.ttf",
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,7 +21,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${josefinSans.variable} h-full antialiased`}
+      className={`${josefinSans.className} h-full antialiased`}
       suppressHydrationWarning={true}
     >
       <body className="min-h-full flex flex-col">
