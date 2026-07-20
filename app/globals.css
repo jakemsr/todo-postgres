@@ -147,7 +147,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 2px;
-    background: var(--background-image-check);    /*linear-gradient(45deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%))*/;
+    background: var(--background-image-check);
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
