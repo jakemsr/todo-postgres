@@ -23,9 +23,9 @@ export default function ThemeToggle() {
       aria-label="Toggle Theme"
     >
       {theme === "dark" ? (
-        <img src="/icon-sun.svg" />
+        <img src="/icon-sun.svg" alt="Sun Icon" />
       ) : (
-        <img src="/icon-moon.svg" />
+        <img src="/icon-moon.svg" alt="Moon Icon" />
       )}
     </button>
   );
