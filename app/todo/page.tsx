@@ -28,6 +28,7 @@ export default function Page() {
     const newItems: Todo[] = [...todos];
     const [removedTodo] = newItems.splice(initialIndex, 1);
     newItems.splice(index, 0, removedTodo);
+    setTodos(newItems);
 
     const low = Math.min(initialIndex, index);
     const high = Math.max(initialIndex, index);
@@ -35,7 +36,6 @@ export default function Page() {
       newItems[idx].position = idx;
       updateTodoPosition(newItems[idx].id, idx);
     }
-    newItems.sort((a, b) => a.position - b.position);
     setTodos(newItems);
   };
 
