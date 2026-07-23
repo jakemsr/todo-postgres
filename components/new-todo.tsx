@@ -46,7 +46,7 @@ export default function NewTodo({ userId, todos, setTodos }: NewTodoProps) {
       <input
         id="new-todo-title"
         type="text"
-        className="flex-1 border-none focus:outline-none focus:ring-0 caret-sidebar-primary"
+        className="flex-1 border-none focus:outline-none focus:ring-0 caret-blue-500"
         value={newTodoTitle}
         onChange={(e) => setNewTodoTitle(e.target.value)}
         onKeyDown={handleKeyDown}
