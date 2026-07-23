@@ -91,7 +91,20 @@ export default function Page() {
   }, []);
 
 
-  if (loading) return <p>Loading state...</p>;
+  if (loading) {
+    return (
+      <div className="flex flex-col w-136 mt-8">
+        <div className="w-full flex flex-col mt-8 gap-8 text-xl rounded-sm bg-white dark:bg-navy-900 shadow-xl">
+          <div className="flex items-center justify-center mt-8">
+            Please wait while we load your data.
+          </div>
+          <div className="flex justify-center items-center mb-8">
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col w-136 mt-8">
