@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Todo } from "@/lib/todo";
+import { getTodos } from "./actions";
 import TodoItem from "@/components/todo-item";
 import { LogoutButton } from "@/components/logout-button";
 import NewTodo from "@/components/new-todo";
@@ -46,6 +47,18 @@ export default function Page() {
       setUserId(localUserId);
       setUserEmail(localUserEmail);
 
+      async function fetchTodos() {
+        if (localUserId) {
+          const { error, data } = await getTodos(localUserId);
+          if (error) {
+            console.error("Failed to fetch todos:", error.message);
+          } else if (data) {
+            data.sort((a, b) => a.position - b.position);
+            setTodos(data);
+          }
+        }
+      }
+      await fetchTodos();
       setLoading(false);
     }
     fetchUserDetails();
@@ -57,7 +70,7 @@ export default function Page() {
   return (
     <div className="flex flex-col w-136 mt-8">
 
-      <NewTodo setTodos={setTodos} todos={todos} />
+      <NewTodo userId={userId} todos={todos} setTodos={setTodos} />
 
       <div className="w-full mt-8 flex flex-col divide-y text-xl rounded-sm bg-white dark:bg-navy-900 shadow-xl">
 

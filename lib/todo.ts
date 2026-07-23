@@ -1,5 +1,6 @@
 interface Todo {
-  id: number;
+  id: string;
+  user_id: string;
   title: string;
   completed: boolean;
   position: number;
