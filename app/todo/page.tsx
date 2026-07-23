@@ -11,22 +11,44 @@ export default function Page() {
 
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
-  const [claims, setClaims] = useState<any>(null);
+  const [userId, setUserId] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   const supabase = createClient();
 
   useEffect(() => {
-    async function fetchClaims() {
+    let localUserId: string;
+    let localUserEmail: string | undefined = undefined;
+    async function fetchUserDetails() {
       const { data, error } = await supabase.auth.getClaims();
       if (error) {
-        console.error("Error fetching claims:", error.message);
+        console.warn("Local claims verification failed:", error.message);
+
+        // Fall back to getUser() to force an Auth server check/refresh
+        const { data: userData, error: userError } = await supabase.auth.getUser();
+
+        if (userError) {
+          // Both failed: Token is completely invalid, expired, or user logged out
+          // Clear local storage and redirect to login
+          window.location.href = '/auth/login';
+        } else {
+          // Session was successfully refreshed server-side
+          console.log("Session recovered:", userData.user);
+          localUserId = userData.user.id;
+          localUserEmail = userData.user.email;
+        }
+
       } else if (data) {
-        setClaims(data.claims);
+        localUserId = data.claims.sub;
+        localUserEmail = data.claims.email;
       }
+      setUserId(localUserId);
+      setUserEmail(localUserEmail);
+
       setLoading(false);
     }
-    fetchClaims();
+    fetchUserDetails();
   }, []);
 
   if (loading) return <p>Loading state...</p>;
@@ -70,7 +92,7 @@ export default function Page() {
 
       <div className="flex w-full items-center justify-center mt-auto py-4 gap-2">
         <p>
-          Logged in as <span>{claims?.email}</span>
+          Logged in as <span>{userEmail}</span>
         </p>
         <LogoutButton />
       </div>
