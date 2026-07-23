@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { Todo } from "@/lib/todo";
-import { getTodos, updateTodoPosition } from "./actions";
+import { deleteTodo, getTodos, updateTodoPosition } from "./actions";
 import TodoItem from "@/components/todo-item";
 import { LogoutButton } from "@/components/logout-button";
 import NewTodo from "@/components/new-todo";
@@ -17,6 +17,24 @@ export default function Page() {
   const [userEmail, setUserEmail] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
+  const clearCompleted = () => {
+    const completedTodos = todos.filter(todo => todo.completed);
+    const activeTodos = todos.filter(todo => !todo.completed);
+    // optimisticly update UI
+    setTodos(activeTodos);
+    // update the positions
+    activeTodos.forEach((todo, index) => {
+      todo.position = index;
+      updateTodoPosition(todo.id, index);
+    });
+    // save positions
+    setTodos(activeTodos);
+    // delete completed todos from the backend
+    completedTodos.forEach((todo) => {
+      deleteTodo(todo.id);
+    });
+  };
+  
   const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
@@ -172,8 +190,8 @@ export default function Page() {
             </button>
           </div>
           <div>
-            <button>
-              <span>
+            <button onClick={clearCompleted}>
+              <span className="cursor-pointer hover:text-white">
                 Clear Completed
               </span>
             </button>
