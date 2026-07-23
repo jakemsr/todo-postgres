@@ -149,7 +149,10 @@ export default function Page() {
 
         <div className="flex justify-between items-center p-4 text-sm text-gray-500">
           <div>
-            X items left
+            {(() => {
+              const activeItemsCount = todos.reduce((count, item) => !item.completed ? count + 1 : count, 0);
+              return `${activeItemsCount} items left`;
+            })()}
           </div>
           <div className="flex gap-4">
             <button>
