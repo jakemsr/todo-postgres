@@ -25,6 +25,10 @@ export default function Page() {
     const initialIndex = result.source.index;
     const index = result.destination.index;
 
+    if (initialIndex === index) {
+      return;
+    }
+
     const newItems: Todo[] = [...todos];
     const [removedTodo] = newItems.splice(initialIndex, 1);
     newItems.splice(index, 0, removedTodo);
