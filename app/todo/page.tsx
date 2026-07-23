@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { Todo } from "@/lib/todo";
-import { getTodos } from "./actions";
+import { getTodos, updateTodoPosition } from "./actions";
 import TodoItem from "@/components/todo-item";
 import { LogoutButton } from "@/components/logout-button";
 import NewTodo from "@/components/new-todo";
@@ -16,12 +17,33 @@ export default function Page() {
   const [userEmail, setUserEmail] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
-  const supabase = createClient();
+  const handleOnDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return;
+    }
+
+    const initialIndex = result.source.index;
+    const index = result.destination.index;
+
+    const newItems: Todo[] = [...todos];
+    const [removedTodo] = newItems.splice(initialIndex, 1);
+    newItems.splice(index, 0, removedTodo);
+
+    const low = Math.min(initialIndex, index);
+    const high = Math.max(initialIndex, index);
+    for (let idx = low; idx <= high; idx++) {
+      newItems[idx].position = idx;
+      updateTodoPosition(newItems[idx].id, idx);
+    }
+    newItems.sort((a, b) => a.position - b.position);
+    setTodos(newItems);
+  };
 
   useEffect(() => {
     let localUserId: string;
     let localUserEmail: string | undefined = undefined;
     async function fetchUserDetails() {
+      const supabase = createClient();
       const { data, error } = await supabase.auth.getClaims();
       if (error) {
         console.warn("Local claims verification failed:", error.message);
@@ -64,19 +86,49 @@ export default function Page() {
     fetchUserDetails();
   }, []);
 
-  if (loading) return <p>Loading state...</p>;
 
+  if (loading) return <p>Loading state...</p>;
 
   return (
     <div className="flex flex-col w-136 mt-8">
 
       <NewTodo userId={userId} todos={todos} setTodos={setTodos} />
 
-      <div className="w-full mt-8 flex flex-col divide-y text-xl rounded-sm bg-white dark:bg-navy-900 shadow-xl">
+      <div className="w-full mt-8 flex flex-col text-xl rounded-sm bg-white dark:bg-navy-900 shadow-xl">
 
-        {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} setTodos={setTodos} />
-        ))}
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="tasks-list">
+            {(provided) => (
+              <div
+                className="tasks-container divide-y"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {todos.map((todo, index) => (
+                  <Draggable key={todo.id} draggableId={todo.id} index={index}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={{
+                          userSelect: 'none',
+                          cursor: 'pointer',
+                          ...provided.draggableProps.style // Vital for calculating correct placements during drag
+                        }}
+                      >
+                        <TodoItem todo={todo} setTodos={setTodos} />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+
+                {/* Acts as a layout placeholder to avoid layout shifts while dragging */}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
 
       </div>
 
