@@ -117,7 +117,7 @@ export default function Page() {
           <Droppable droppableId="tasks-list">
             {(provided) => (
               <div
-                className="tasks-container divide-y"
+                className="tasks-container divide-y border-b"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
@@ -146,6 +146,36 @@ export default function Page() {
             )}
           </Droppable>
         </DragDropContext>
+
+        <div className="flex justify-between items-center p-4 text-sm text-gray-500">
+          <div>
+            X items left
+          </div>
+          <div className="flex gap-4">
+            <button>
+              <span>
+                All
+              </span>
+            </button>
+            <button>
+              <span>
+                Active
+              </span>
+            </button>
+            <button>
+              <span>
+                Completed
+              </span>
+            </button>
+          </div>
+          <div>
+            <button>
+              <span>
+                Clear Completed
+              </span>
+            </button>
+          </div>
+        </div>
 
       </div>
 
