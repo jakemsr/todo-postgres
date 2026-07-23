@@ -17,6 +17,14 @@ export default function Page() {
   const [userEmail, setUserEmail] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
+  enum Filter {
+    All = "All",
+    Active = "Active",
+    Completed = "Completed"
+  }
+
+  const [filter, setFilter] = useState<Filter>(Filter.All);
+
   const clearCompleted = () => {
     const completedTodos = todos.filter(todo => todo.completed);
     const activeTodos = todos.filter(todo => !todo.completed);
@@ -34,7 +42,7 @@ export default function Page() {
       deleteTodo(todo.id);
     });
   };
-  
+
   const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
@@ -139,7 +147,12 @@ export default function Page() {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {todos.map((todo, index) => (
+                {todos.filter(todo => {
+                  if (filter === Filter.All) return true;
+                  if (filter === Filter.Active) return !todo.completed;
+                  if (filter === Filter.Completed) return todo.completed;
+                  return true;
+                }).map((todo, index) => (
                   <Draggable key={todo.id} draggableId={todo.id} index={index}>
                     {(provided, snapshot) => (
                       <div
@@ -173,18 +186,18 @@ export default function Page() {
             })()}
           </div>
           <div className="flex gap-4">
-            <button>
-              <span>
+            <button onClick={() => setFilter(Filter.All)}>
+              <span className={`cursor-pointer ${filter === Filter.All ? "text-blue-500" : "hover:text-white"}`}>
                 All
               </span>
             </button>
-            <button>
-              <span>
+            <button onClick={() => setFilter(Filter.Active)}>
+              <span className={`cursor-pointer ${filter === Filter.Active ? "text-blue-500" : "hover:text-white"}`}>
                 Active
               </span>
             </button>
-            <button>
-              <span>
+            <button onClick={() => setFilter(Filter.Completed)}>
+              <span className={`cursor-pointer ${filter === Filter.Completed ? "text-blue-500" : "hover:text-white"}`}>
                 Completed
               </span>
             </button>
