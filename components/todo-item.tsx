@@ -26,7 +26,7 @@ export default function TodoItem({ todo, setTodos }: TodoItemsProps) {
         {todo.completed && (<img src="/icon-check.svg" alt="Completed" />)}
       </div>
       <div
-        className={`${todo.completed ? "line-through" : ""} flex-1`}
+        className={`${todo.completed ? "line-through text-gray-300 dark:text-gray-500" : ""} flex-1`}
       >
         {todo.title}
       </div>
