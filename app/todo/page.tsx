@@ -178,7 +178,7 @@ export default function Page() {
           </Droppable>
         </DragDropContext>
 
-        <div className="flex justify-between items-center p-4 text-sm text-gray-500">
+        <div className="flex justify-between items-center p-4 text-base text-gray-500">
           <div>
             {(() => {
               const activeItemsCount = todos.reduce((count, item) => !item.completed ? count + 1 : count, 0);
