@@ -213,6 +213,11 @@ export default function Page() {
 
       </div>
 
+      <div className="text-sm mt-12 mb-4 text-center text-gray-500">
+        <p>Drag and drop to reorder list</p>
+        {filter !== Filter.All && <p>Reordering with filters enabled not recommended</p>}
+      </div>
+
       <div className="flex w-full items-center justify-center mt-auto py-4 gap-2">
         <p>
           Logged in as <span>{userEmail}</span>
