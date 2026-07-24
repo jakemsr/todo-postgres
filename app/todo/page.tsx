@@ -48,11 +48,34 @@ export default function Page() {
       return;
     }
 
-    const initialIndex = result.source.index;
-    const index = result.destination.index;
+    // returned indexes are the map()ed indexes
+    // so if there was filtering, they are NOT
+    // the actual indexes of the todos array
+    let initialIndex = result.source.index;
+    let index = result.destination.index;
 
     if (initialIndex === index) {
       return;
+    }
+
+    const low = Math.min(initialIndex, index);
+    let high = Math.max(initialIndex, index);
+
+    // adjust the indexes to account for the filtered view
+    if (filter !== Filter.All) {
+      let end = high;
+      for (let i = low; i <= end; i++) {
+        if ((filter === Filter.Active && todos[i].completed) ||
+         (filter === Filter.Completed && !todos[i].completed)) {
+            end++;
+        }
+      }
+      if (initialIndex === high) {
+        initialIndex = end;
+      } else {
+        index = end;
+      }
+      high = end;
     }
 
     const newItems: Todo[] = [...todos];
@@ -60,8 +83,6 @@ export default function Page() {
     newItems.splice(index, 0, removedTodo);
     setTodos(newItems);
 
-    const low = Math.min(initialIndex, index);
-    const high = Math.max(initialIndex, index);
     for (let idx = low; idx <= high; idx++) {
       newItems[idx].position = idx;
       updateTodoPosition(newItems[idx].id, idx);
@@ -215,7 +236,6 @@ export default function Page() {
 
       <div className="text-sm mt-12 mb-4 text-center text-gray-500">
         <p>Drag and drop to reorder list</p>
-        {filter !== Filter.All && <p>Reordering with filters enabled not recommended</p>}
       </div>
 
       <div className="flex w-full items-center justify-center mt-auto py-4 gap-2">
