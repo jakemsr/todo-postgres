@@ -199,7 +199,7 @@ export default function Page() {
           </Droppable>
         </DragDropContext>
 
-        <div className="flex justify-between items-center p-4 text-base text-gray-500">
+        <div className="flex justify-between items-center p-4 text-base text-gray-400 dark:text-gray-500">
           <div>
             {(() => {
               const activeItemsCount = todos.reduce((count, item) => !item.completed ? count + 1 : count, 0);
@@ -208,24 +208,24 @@ export default function Page() {
           </div>
           <div className="flex gap-4">
             <button onClick={() => setFilter(Filter.All)}>
-              <span className={`cursor-pointer ${filter === Filter.All ? "text-blue-500" : "hover:text-white"}`}>
+              <span className={`cursor-pointer ${filter === Filter.All ? "text-blue-500" : "hover:text-foreground dark:hover:text-white"}`}>
                 All
               </span>
             </button>
             <button onClick={() => setFilter(Filter.Active)}>
-              <span className={`cursor-pointer ${filter === Filter.Active ? "text-blue-500" : "hover:text-white"}`}>
+              <span className={`cursor-pointer ${filter === Filter.Active ? "text-blue-500" : "hover:text-foreground dark:hover:text-white"}`}>
                 Active
               </span>
             </button>
             <button onClick={() => setFilter(Filter.Completed)}>
-              <span className={`cursor-pointer ${filter === Filter.Completed ? "text-blue-500" : "hover:text-white"}`}>
+              <span className={`cursor-pointer ${filter === Filter.Completed ? "text-blue-500" : "hover:text-foreground dark:hover:text-white"}`}>
                 Completed
               </span>
             </button>
           </div>
           <div>
             <button onClick={clearCompleted}>
-              <span className="cursor-pointer hover:text-white">
+              <span className="cursor-pointer hover:text-foreground dark:hover:text-white">
                 Clear Completed
               </span>
             </button>
